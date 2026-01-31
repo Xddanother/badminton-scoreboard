@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🏸 羽毛球记分牌</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 15px;
+            color: white;
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.6em;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #a0aec0;
+            margin-bottom: 15px;
+            font-size: 0.85em;
+        }
+        .save-status {
+            text-align: center;
+            font-size: 0.8em;
+            color: #48bb78;
+            margin-bottom: 10px;
+            min-height: 20px;
+        }
+        .groups-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+        .group-card {
+            background: #2d3748;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .group-name {
+            background: transparent;
+            border: 2px solid #4a5568;
+            border-radius: 8px;
+            padding: 10px;
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 12px;
+            cursor: text;
+        }
+        .group-name:focus {
+            outline: none;
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+        .group-card:nth-child(1) .group-name { border-color: #f56565; color: #fc8181; }
+        .group-card:nth-child(2) .group-name { border-color: #48bb78; color: #68d391; }
+        .group-card:nth-child(3) .group-name { border-color: #ed8936; color: #f6ad55; }
+        .group-card:nth-child(4) .group-name { border-color: #9f7aea; color: #b794f4; }
+        
+        .score-input {
+            background: transparent;
+            border: 2px dashed #4a5568;
+            border-radius: 10px;
+            padding: 10px;
+            color: white;
+            font-size: 3.5em;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            cursor: text;
+            -moz-appearance: textfield;
+        }
+        .score-input::-webkit-outer-spin-button,
+        .score-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .score-input:focus {
+            outline: none;
+            border-style: solid;
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+        .group-card:nth-child(1) .score-input { color: #f56565; }
+        .group-card:nth-child(2) .score-input { color: #48bb78; }
+        .group-card:nth-child(3) .score-input { color: #ed8936; }
+        .group-card:nth-child(4) .score-input { color: #9f7aea; }
+        
+        .quick-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .quick-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.4em;
+            cursor: pointer;
+            transition: transform 0.1s;
+            font-weight: bold;
+        }
+        .quick-btn:active {
+            transform: scale(0.9);
+        }
+        .quick-btn.minus {
+            background: #fc8181;
+            color: white;
+        }
+        .quick-btn.plus {
+            background: #68d391;
+            color: white;
+        }
+        .edit-hint {
+            font-size: 0.75em;
+            color: #718096;
+            margin-top: 5px;
+        }
+        .reset-btn {
+            display: block;
+            margin: 15px auto;
+            padding: 12px 30px;
+            background: #e53e3e;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        .reset-btn:active {
+            background: #c53030;
+        }
+        
+        /* 队员管理区域 */
+        .team-management {
+            background: #2d3748;
+            border-radius: 15px;
+            padding: 15px;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+        .team-management h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .team-column {
+            background: #1a202c;
+            border-radius: 10px;
+            padding: 12px;
+        }
+        .team-column h4 {
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #4a5568;
+        }
+        .team-column:nth-child(1) h4 { color: #fc8181; }
+        .team-column:nth-child(2) h4 { color: #68d391; }
+        .team-column:nth-child(3) h4 { color: #f6ad55; }
+        .team-column:nth-child(4) h4 { color: #b794f4; }
+        
+        .player-input {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .player-number {
+            width: 25px;
+            font-size: 0.85em;
+            color: #a0aec0;
+        }
+        .player-name-input {
+            flex: 1;
+            background: transparent;
+            border: 1px solid #4a5568;
+            border-radius: 5px;
+            padding: 6px 8px;
+            color: white;
+            font-size: 0.9em;
+        }
+        .player-name-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .random-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .random-btn:active {
+            transform: scale(0.98);
+        }
+        .random-btn:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+        
+        /* 出场顺序结果 */
+        .lineup-result {
+            background: #1a202c;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+        .lineup-result.show {
+            display: block;
+        }
+        .lineup-result h4 {
+            color: #f6e05e;
+            margin-bottom: 12px;
+            text-align: center;
+            font-size: 1em;
+        }
+        .lineup-team {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #2d3748;
+            border-radius: 8px;
+        }
+        .lineup-team-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        .lineup-team:nth-child(2) .lineup-team-name { color: #fc8181; }
+        .lineup-team:nth-child(3) .lineup-team-name { color: #68d391; }
+        .lineup-team:nth-child(4) .lineup-team-name { color: #f6ad55; }
+        .lineup-team:nth-child(5) .lineup-team-name { color: #b794f4; }
+        .lineup-order {
+            font-size: 0.85em;
+            color: #cbd5e0;
+        }
+        
+        .rules {
+            background: #2d3748;
+            border-radius: 15px;
+            padding: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .rules h3 {
+            color: #667eea;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+        }
+        .rules ol, .rules ul {
+            margin-left: 20px;
+            color: #cbd5e0;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+        .rules li {
+            margin-bottom: 8px;
+        }
+        .rules strong {
+            color: #f6e05e;
+        }
+        .rule-section {
+            margin-bottom: 15px;
+        }
+        .rule-title {
+            font-weight: bold;
+            color: #a0aec0;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏸 羽毛球五羽轮比</h1>
+    <p class="subtitle">点击名字或分数直接编辑 | 数据自动保存</p>
+    <div class="save-status" id="saveStatus"></div>
+
+    <div class="groups-container">
+        <div class="group-card">
+            <input type="text" class="group-name" id="name-0" value="李沛组" onclick="this.select()" onchange="saveData()" onblur="saveData()">
+            <input type="number" class="score-input" id="score-0" value="0" min="0" onclick="this.select()" onchange="saveData()" onblur="saveData()">
+            <div class="quick-buttons">
+                <button class="quick-btn minus" onclick="changeScore(0, -1)">−</button>
+                <button class="quick-btn plus" onclick="changeScore(0, 1)">+</button>
+            </div>
+            <div class="edit-hint">点击分数可直接输入</div>
+        </div>
+        <div class="group-card">
+            <input type="text" class="group-name" id="name-1" value="小左组" onclick="this.select()" onchange="saveData()" onblur="saveData()">
+            <input type="number" class="score-input" id="score-1" value="0" min="0" onclick="this.select()" onchange="saveData()" onblur="saveData()">
+            <div class="quick-buttons">
+                <button class="quick-btn minus" onclick="changeScore(1, -1)">−</button>
+                <button class="quick-btn plus" onclick="changeScore(1, 1)">+</button>
+            </div>
+            <div class="edit-hint">点击分数可直接输入</div>
+        </div>
+        <div class="group-card">
+            <input type="text" class="group-name" id="name-2" value="方爽组" onclick="this.select()" onchange="saveData()" onblur="saveData()">
+            <input type="number" class="score-input" id="score-2" value="0" min="0" onclick="this.select()" onchange="saveData()" onblur="saveData()">
+            <div class="quick-buttons">
+                <button class="quick-btn minus" onclick="changeScore(2, -1)">−</button>
+                <button class="quick-btn plus" onclick="changeScore(2, 1)">+</button>
+            </div>
+            <div class="edit-hint">点击分数可直接输入</div>
+        </div>
+        <div class="group-card">
+            <input type="text" class="group-name" id="name-3" value="童建民组" onclick="this.select()" onchange="saveData()" onblur="saveData()">
+            <input type="number" class="score-input" id="score-3" value="0" min="0" onclick="this.select()" onchange="saveData()" onblur="saveData()">
+            <div class="quick-buttons">
+                <button class="quick-btn minus" onclick="changeScore(3, -1)">−</button>
+                <button class="quick-btn plus" onclick="changeScore(3, 1)">+</button>
+            </div>
+            <div class="edit-hint">点击分数可直接输入</div>
+        </div>
+    </div>
+
+    <button class="reset-btn" onclick="resetAll()">🔄 重置所有分数</button>
+
+    <!-- 队员管理区域 -->
+    <div class="team-management">
+        <h3>👥 队员名单</h3>
+        <div class="team-grid" id="teamGrid">
+            <!-- 动态生成 -->
+        </div>
+        <button class="random-btn" onclick="randomizeLineup()">🎲 随机抽签出场顺序</button>
+        <div class="lineup-result" id="lineupResult">
+            <h4>📋 出场顺序</h4>
+            <!-- 动态生成 -->
+        </div>
+    </div>
+
+    <div class="rules">
+        <h3>📋 比赛规则</h3>
+        
+        <div class="rule-section">
+            <div class="rule-title">1、单循环赛制</div>
+            <ul>
+                <li>采用单循环赛，每场比赛胜队记<strong>1分</strong>、负队记<strong>0分</strong></li>
+                <li>积分多者胜；积分相同者，<strong>净胜分多者胜</strong></li>
+                <li>4支队伍排出<strong>冠军、亚军和并列第三名</strong></li>
+            </ul>
+        </div>
+
+        <div class="rule-section">
+            <div class="rule-title">2、五羽轮比</div>
+            <ul>
+                <li>每队<strong>5名队员</strong>分为 1、2、3、4、5 号队员</li>
+                <li>每场<strong>5局</strong>，每局<strong>15分</strong></li>
+                <li>对阵顺序：<strong>12对12、23对23、34对34、45对45、51对51</strong></li>
+                <li>第1局到15分换人换场地，第2局到30分换人换场地，以此类推</li>
+                <li>第5局先到<strong>75分</strong>的队胜</li>
+                <li>裁判由对阵双方轮流派出</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'badminton_scoreboard_v3';
+
+        // 初始化队员输入框
+        function initTeamGrid() {
+            const grid = document.getElementById('teamGrid');
+            grid.innerHTML = '';
+            
+            for (let team = 0; team < 4; team++) {
+                const teamName = document.getElementById(`name-${team}`).value;
+                const column = document.createElement('div');
+                column.className = 'team-column';
+                column.innerHTML = `<h4>${teamName}</h4>`;
+                
+                for (let player = 1; player <= 5; player++) {
+                    const playerDiv = document.createElement('div');
+                    playerDiv.className = 'player-input';
+                    playerDiv.innerHTML = `
+                        <span class="player-number">${player}号</span>
+                        <input type="text" class="player-name-input" 
+                               id="player-${team}-${player}" 
+                               placeholder="队员${player}"
+                               onchange="saveData()" onblur="saveData()">
+                    `;
+                    column.appendChild(playerDiv);
+                }
+                grid.appendChild(column);
+            }
+        }
+
+        // 更新队伍名称时同步更新队员区域标题
+        function updateTeamHeaders() {
+            const columns = document.querySelectorAll('.team-column h4');
+            for (let i = 0; i < 4; i++) {
+                const teamName = document.getElementById(`name-${i}`).value;
+                if (columns[i]) {
+                    columns[i].textContent = teamName;
+                }
+            }
+        }
+
+        // 随机打乱数组
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // 随机抽签出场顺序
+        function randomizeLineup() {
+            const resultDiv = document.getElementById('lineupResult');
+            resultDiv.innerHTML = '<h4>📋 出场顺序</h4>';
+            
+            for (let team = 0; team < 4; team++) {
+                const teamName = document.getElementById(`name-${team}`).value;
+                const players = [];
+                
+                for (let p = 1; p <= 5; p++) {
+                    const input = document.getElementById(`player-${team}-${p}`);
+                    const name = input ? input.value.trim() : '';
+                    players.push(name || `队员${p}`);
+                }
+                
+                // 随机打乱顺序
+                const shuffled = shuffleArray(players);
+                
+                const teamDiv = document.createElement('div');
+                teamDiv.className = 'lineup-team';
+                teamDiv.innerHTML = `
+                    <div class="lineup-team-name">${teamName}</div>
+                    <div class="lineup-order">
+                        1号: ${shuffled[0]} → 
+                        2号: ${shuffled[1]} → 
+                        3号: ${shuffled[2]} → 
+                        4号: ${shuffled[3]} → 
+                        5号: ${shuffled[4]}
+                    </div>
+                `;
+                resultDiv.appendChild(teamDiv);
+            }
+            
+            resultDiv.classList.add('show');
+            
+            // 保存抽签结果
+            saveData();
+        }
+
+        // 加载保存的数据
+        function loadData() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    for (let i = 0; i < 4; i++) {
+                        if (data.names && data.names[i]) {
+                            document.getElementById(`name-${i}`).value = data.names[i];
+                        }
+                        if (data.scores && data.scores[i] !== undefined) {
+                            document.getElementById(`score-${i}`).value = data.scores[i];
+                        }
+                    }
+                    
+                    // 初始化队员输入框后加载队员数据
+                    initTeamGrid();
+                    
+                    if (data.players) {
+                        for (let team = 0; team < 4; team++) {
+                            for (let p = 1; p <= 5; p++) {
+                                const input = document.getElementById(`player-${team}-${p}`);
+                                if (input && data.players[team] && data.players[team][p-1]) {
+                                    input.value = data.players[team][p-1];
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    initTeamGrid();
+                }
+            } catch (e) {
+                console.log('加载数据失败');
+                initTeamGrid();
+            }
+        }
+
+        // 保存数据
+        function saveData() {
+            try {
+                const names = [];
+                const scores = [];
+                const players = [];
+                
+                for (let i = 0; i < 4; i++) {
+                    names.push(document.getElementById(`name-${i}`).value);
+                    scores.push(parseInt(document.getElementById(`score-${i}`).value) || 0);
+                    
+                    const teamPlayers = [];
+                    for (let p = 1; p <= 5; p++) {
+                        const input = document.getElementById(`player-${i}-${p}`);
+                        teamPlayers.push(input ? input.value : '');
+                    }
+                    players.push(teamPlayers);
+                }
+                
+                localStorage.setItem(STORAGE_KEY, JSON.stringify({ names, scores, players }));
+                
+                // 更新队伍标题
+                updateTeamHeaders();
+                
+                // 显示保存状态
+                const status = document.getElementById('saveStatus');
+                status.textContent = '✓ 已自动保存';
+                setTimeout(() => { status.textContent = ''; }, 2000);
+            } catch (e) {
+                console.log('保存数据失败');
+            }
+        }
+
+        // 改变分数
+        function changeScore(index, delta) {
+            const input = document.getElementById(`score-${index}`);
+            let value = parseInt(input.value) || 0;
+            value = Math.max(0, value + delta);
+            input.value = value;
+            saveData();
+        }
+
+        // 重置所有分数
+        function resetAll() {
+            if (confirm('确定要重置所有分数吗？')) {
+                for (let i = 0; i < 4; i++) {
+                    document.getElementById(`score-${i}`).value = 0;
+                }
+                saveData();
+            }
+        }
+
+        // 页面加载时初始化
+        window.onload = loadData;
+    </script>
+</body>
+</html>
