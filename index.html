@@ -13,353 +13,216 @@
             padding: 15px;
             color: white;
         }
-        h1 {
-            text-align: center;
-            font-size: 1.6em;
-            margin-bottom: 5px;
-        }
-        .subtitle {
-            text-align: center;
-            color: #a0aec0;
-            margin-bottom: 15px;
-            font-size: 0.85em;
-        }
-        .save-status {
-            text-align: center;
-            font-size: 0.8em;
-            color: #48bb78;
-            margin-bottom: 10px;
-            min-height: 20px;
-        }
-        .groups-container {
+        h1 { text-align: center; font-size: 1.6em; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #a0aec0; margin-bottom: 15px; font-size: 0.85em; }
+        .save-status { text-align: center; font-size: 0.8em; color: #48bb78; margin-bottom: 10px; min-height: 20px; }
+        
+        .teams-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            max-width: 600px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 700px;
             margin: 0 auto 20px;
         }
-        .group-card {
+        
+        .team-card {
             background: #2d3748;
             border-radius: 15px;
             padding: 15px;
-            text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-        .group-name {
+        
+        .team-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .team-name {
+            flex: 1;
             background: transparent;
             border: 2px solid #4a5568;
             border-radius: 8px;
-            padding: 10px;
+            padding: 8px;
             color: white;
             font-size: 1.1em;
             font-weight: bold;
             text-align: center;
-            width: 100%;
-            margin-bottom: 12px;
-            cursor: text;
         }
-        .group-name:focus {
-            outline: none;
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.1);
-        }
-        .group-card:nth-child(1) .group-name { border-color: #f56565; color: #fc8181; }
-        .group-card:nth-child(2) .group-name { border-color: #48bb78; color: #68d391; }
-        .group-card:nth-child(3) .group-name { border-color: #ed8936; color: #f6ad55; }
-        .group-card:nth-child(4) .group-name { border-color: #9f7aea; color: #b794f4; }
+        .team-name:focus { outline: none; border-color: #667eea; }
         
-        .score-input {
-            background: transparent;
-            border: 2px dashed #4a5568;
-            border-radius: 10px;
-            padding: 10px;
-            color: white;
-            font-size: 3.5em;
-            font-weight: bold;
-            text-align: center;
-            width: 100%;
-            margin: 10px 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            cursor: text;
-            -moz-appearance: textfield;
-        }
-        .score-input::-webkit-outer-spin-button,
-        .score-input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        .score-input:focus {
-            outline: none;
-            border-style: solid;
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.1);
-        }
-        .group-card:nth-child(1) .score-input { color: #f56565; }
-        .group-card:nth-child(2) .score-input { color: #48bb78; }
-        .group-card:nth-child(3) .score-input { color: #ed8936; }
-        .group-card:nth-child(4) .score-input { color: #9f7aea; }
+        .team-card:nth-child(1) .team-name { border-color: #f56565; color: #fc8181; }
+        .team-card:nth-child(2) .team-name { border-color: #48bb78; color: #68d391; }
+        .team-card:nth-child(3) .team-name { border-color: #ed8936; color: #f6ad55; }
+        .team-card:nth-child(4) .team-name { border-color: #9f7aea; color: #b794f4; }
         
-        .quick-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 8px;
-        }
-        .quick-btn {
-            width: 40px;
-            height: 40px;
-            border: none;
-            border-radius: 50%;
-            font-size: 1.4em;
-            cursor: pointer;
-            transition: transform 0.1s;
-            font-weight: bold;
-        }
-        .quick-btn:active {
-            transform: scale(0.9);
-        }
-        .quick-btn.minus {
-            background: #fc8181;
-            color: white;
-        }
-        .quick-btn.plus {
-            background: #68d391;
-            color: white;
-        }
-        .edit-hint {
-            font-size: 0.75em;
-            color: #718096;
-            margin-top: 5px;
-        }
-        .reset-btn {
-            display: block;
-            margin: 15px auto;
-            padding: 12px 30px;
-            background: #e53e3e;
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 1em;
-            cursor: pointer;
-        }
-        .reset-btn:active {
-            background: #c53030;
-        }
-        
-        /* 队员管理区域 */
-        .team-management {
-            background: #2d3748;
-            border-radius: 15px;
-            padding: 15px;
-            max-width: 600px;
-            margin: 0 auto 20px;
-        }
-        .team-management h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 1.1em;
-            text-align: center;
-        }
-        .team-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-        .team-column {
-            background: #1a202c;
-            border-radius: 10px;
-            padding: 12px;
-        }
-        .team-column h4 {
-            font-size: 0.95em;
-            margin-bottom: 10px;
-            text-align: center;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #4a5568;
-        }
-        .team-column:nth-child(1) h4 { color: #fc8181; }
-        .team-column:nth-child(2) h4 { color: #68d391; }
-        .team-column:nth-child(3) h4 { color: #f6ad55; }
-        .team-column:nth-child(4) h4 { color: #b794f4; }
-        
-        .player-input {
+        .score-section {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
         }
-        .player-number {
-            width: 25px;
-            font-size: 0.85em;
+        
+        .score-btn {
+            width: 40px; height: 40px;
+            border: none; border-radius: 50%;
+            font-size: 1.4em; font-weight: bold;
+            cursor: pointer;
+        }
+        .score-btn.minus { background: #fc8181; color: white; }
+        .score-btn.plus { background: #68d391; color: white; }
+        .score-btn:active { transform: scale(0.95); }
+        
+        .score-display {
+            font-size: 2.5em;
+            font-weight: bold;
+            min-width: 60px;
+            text-align: center;
+        }
+        .team-card:nth-child(1) .score-display { color: #f56565; }
+        .team-card:nth-child(2) .score-display { color: #48bb78; }
+        .team-card:nth-child(3) .score-display { color: #ed8936; }
+        .team-card:nth-child(4) .score-display { color: #9f7aea; }
+        
+        .players-section {
+            border-top: 1px solid #4a5568;
+            padding-top: 12px;
+        }
+        .players-title {
+            font-size: 0.8em;
             color: #a0aec0;
+            margin-bottom: 8px;
+            text-align: center;
         }
-        .player-name-input {
+        .player-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 6px;
+            gap: 8px;
+        }
+        .player-num {
+            font-size: 0.75em;
+            color: #718096;
+            width: 30px;
+            text-align: right;
+        }
+        .player-input {
             flex: 1;
-            background: transparent;
+            padding: 6px 10px;
             border: 1px solid #4a5568;
             border-radius: 5px;
-            padding: 6px 8px;
+            background: #1a202c;
             color: white;
             font-size: 0.9em;
         }
-        .player-name-input:focus {
-            outline: none;
-            border-color: #667eea;
+        .player-input:focus { outline: none; border-color: #667eea; }
+        .player-input::placeholder { color: #718096; }
+        
+        .buttons-section {
+            max-width: 700px;
+            margin: 20px auto;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
         
-        .random-btn {
-            display: block;
-            width: 100%;
-            margin-top: 15px;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .action-btn {
+            padding: 12px 25px;
             border: none;
-            border-radius: 10px;
-            color: white;
+            border-radius: 25px;
             font-size: 1em;
-            font-weight: bold;
             cursor: pointer;
-            transition: transform 0.1s;
+            transition: transform 0.2s;
         }
-        .random-btn:active {
-            transform: scale(0.98);
-        }
-        .random-btn:hover {
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-        }
+        .action-btn:active { transform: scale(0.98); }
+        .reset-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+        .random-btn { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; }
         
-        /* 出场顺序结果 */
         .lineup-result {
-            background: #1a202c;
-            border-radius: 10px;
+            max-width: 700px;
+            margin: 20px auto;
             padding: 15px;
-            margin-top: 15px;
+            background: #2d3748;
+            border-radius: 15px;
             display: none;
         }
-        .lineup-result.show {
-            display: block;
-        }
-        .lineup-result h4 {
-            color: #f6e05e;
-            margin-bottom: 12px;
-            text-align: center;
-            font-size: 1em;
-        }
+        .lineup-result.show { display: block; }
+        .lineup-result h3 { text-align: center; margin-bottom: 15px; color: #fbd38d; }
+        
         .lineup-team {
-            margin-bottom: 10px;
-            padding: 10px;
-            background: #2d3748;
-            border-radius: 8px;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: #1a202c;
+            border-radius: 10px;
         }
         .lineup-team-name {
             font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 0.9em;
+            margin-bottom: 8px;
+            font-size: 1.1em;
         }
         .lineup-team:nth-child(2) .lineup-team-name { color: #fc8181; }
         .lineup-team:nth-child(3) .lineup-team-name { color: #68d391; }
         .lineup-team:nth-child(4) .lineup-team-name { color: #f6ad55; }
         .lineup-team:nth-child(5) .lineup-team-name { color: #b794f4; }
+        
         .lineup-order {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .lineup-player {
+            background: #2d3748;
+            padding: 5px 10px;
+            border-radius: 15px;
             font-size: 0.85em;
-            color: #cbd5e0;
+        }
+        .lineup-player .num {
+            color: #fbd38d;
+            font-weight: bold;
         }
         
         .rules {
+            max-width: 700px;
+            margin: 20px auto;
             background: #2d3748;
             border-radius: 15px;
-            padding: 15px;
-            max-width: 600px;
-            margin: 0 auto;
+            padding: 20px;
         }
-        .rules h3 {
-            color: #667eea;
-            margin-bottom: 12px;
-            font-size: 1.1em;
-        }
-        .rules ol, .rules ul {
-            margin-left: 20px;
-            color: #cbd5e0;
-            font-size: 0.9em;
-            line-height: 1.6;
-        }
-        .rules li {
-            margin-bottom: 8px;
-        }
-        .rules strong {
-            color: #f6e05e;
-        }
-        .rule-section {
-            margin-bottom: 15px;
-        }
-        .rule-title {
-            font-weight: bold;
-            color: #a0aec0;
-            margin-bottom: 5px;
+        .rules h3 { text-align: center; margin-bottom: 15px; color: #a0aec0; }
+        .rule-section { margin-bottom: 15px; }
+        .rule-title { font-weight: bold; color: #68d391; margin-bottom: 8px; }
+        .rules ul { padding-left: 20px; font-size: 0.9em; color: #cbd5e0; line-height: 1.8; }
+        .rules strong { color: #fbd38d; }
+
+        @media (max-width: 500px) {
+            .teams-container { grid-template-columns: 1fr; }
+            .score-display { font-size: 2em; }
         }
     </style>
 </head>
 <body>
     <h1>🏸 羽毛球五羽轮比</h1>
-    <p class="subtitle">点击名字或分数直接编辑 | 数据自动保存</p>
+    <p class="subtitle">点击队名或分数可编辑 | 数据自动保存</p>
     <div class="save-status" id="saveStatus"></div>
 
-    <div class="groups-container">
-        <div class="group-card">
-            <input type="text" class="group-name" id="name-0" value="李沛组" onclick="this.select()" onchange="saveData()" onblur="saveData()">
-            <input type="number" class="score-input" id="score-0" value="0" min="0" onclick="this.select()" onchange="saveData()" onblur="saveData()">
-            <div class="quick-buttons">
-                <button class="quick-btn minus" onclick="changeScore(0, -1)">−</button>
-                <button class="quick-btn plus" onclick="changeScore(0, 1)">+</button>
-            </div>
-            <div class="edit-hint">点击分数可直接输入</div>
-        </div>
-        <div class="group-card">
-            <input type="text" class="group-name" id="name-1" value="小左组" onclick="this.select()" onchange="saveData()" onblur="saveData()">
-            <input type="number" class="score-input" id="score-1" value="0" min="0" onclick="this.select()" onchange="saveData()" onblur="saveData()">
-            <div class="quick-buttons">
-                <button class="quick-btn minus" onclick="changeScore(1, -1)">−</button>
-                <button class="quick-btn plus" onclick="changeScore(1, 1)">+</button>
-            </div>
-            <div class="edit-hint">点击分数可直接输入</div>
-        </div>
-        <div class="group-card">
-            <input type="text" class="group-name" id="name-2" value="方爽组" onclick="this.select()" onchange="saveData()" onblur="saveData()">
-            <input type="number" class="score-input" id="score-2" value="0" min="0" onclick="this.select()" onchange="saveData()" onblur="saveData()">
-            <div class="quick-buttons">
-                <button class="quick-btn minus" onclick="changeScore(2, -1)">−</button>
-                <button class="quick-btn plus" onclick="changeScore(2, 1)">+</button>
-            </div>
-            <div class="edit-hint">点击分数可直接输入</div>
-        </div>
-        <div class="group-card">
-            <input type="text" class="group-name" id="name-3" value="童建民组" onclick="this.select()" onchange="saveData()" onblur="saveData()">
-            <input type="number" class="score-input" id="score-3" value="0" min="0" onclick="this.select()" onchange="saveData()" onblur="saveData()">
-            <div class="quick-buttons">
-                <button class="quick-btn minus" onclick="changeScore(3, -1)">−</button>
-                <button class="quick-btn plus" onclick="changeScore(3, 1)">+</button>
-            </div>
-            <div class="edit-hint">点击分数可直接输入</div>
-        </div>
+    <div class="teams-container" id="teamsContainer">
+        <!-- 动态生成 -->
     </div>
 
-    <button class="reset-btn" onclick="resetAll()">🔄 重置所有分数</button>
+    <div class="buttons-section">
+        <button class="action-btn reset-btn" onclick="resetScores()">🔄 重置分数</button>
+        <button class="action-btn random-btn" onclick="randomizeLineup()">🎲 随机抽签出场顺序</button>
+    </div>
 
-    <!-- 队员管理区域 -->
-    <div class="team-management">
-        <h3>👥 队员名单</h3>
-        <div class="team-grid" id="teamGrid">
-            <!-- 动态生成 -->
-        </div>
-        <button class="random-btn" onclick="randomizeLineup()">🎲 随机抽签出场顺序</button>
-        <div class="lineup-result" id="lineupResult">
-            <h4>📋 出场顺序</h4>
-            <!-- 动态生成 -->
-        </div>
+    <div class="lineup-result" id="lineupResult">
+        <h3>📋 抽签结果 - 出场顺序</h3>
     </div>
 
     <div class="rules">
         <h3>📋 比赛规则</h3>
-        
         <div class="rule-section">
             <div class="rule-title">1、单循环赛制</div>
             <ul>
@@ -368,7 +231,6 @@
                 <li>4支队伍排出<strong>冠军、亚军和并列第三名</strong></li>
             </ul>
         </div>
-
         <div class="rule-section">
             <div class="rule-title">2、五羽轮比</div>
             <ul>
@@ -383,47 +245,91 @@
     </div>
 
     <script>
-        const STORAGE_KEY = 'badminton_scoreboard_v3';
+        const STORAGE_KEY = 'badminton_v5';
+        const DEFAULT_TEAMS = ['红队', '绿队', '橙队', '紫队'];
+        
+        let data = {
+            teams: DEFAULT_TEAMS.map(name => ({
+                name: name,
+                score: 0,
+                players: ['', '', '', '', '']
+            }))
+        };
 
-        // 初始化队员输入框
-        function initTeamGrid() {
-            const grid = document.getElementById('teamGrid');
-            grid.innerHTML = '';
+        function init() {
+            loadData();
+            renderTeams();
+        }
+
+        function renderTeams() {
+            const container = document.getElementById('teamsContainer');
+            container.innerHTML = '';
             
-            for (let team = 0; team < 4; team++) {
-                const teamName = document.getElementById(`name-${team}`).value;
-                const column = document.createElement('div');
-                column.className = 'team-column';
-                column.innerHTML = `<h4>${teamName}</h4>`;
+            data.teams.forEach((team, teamIdx) => {
+                const card = document.createElement('div');
+                card.className = 'team-card';
                 
-                for (let player = 1; player <= 5; player++) {
-                    const playerDiv = document.createElement('div');
-                    playerDiv.className = 'player-input';
-                    playerDiv.innerHTML = `
-                        <span class="player-number">${player}号</span>
-                        <input type="text" class="player-name-input" 
-                               id="player-${team}-${player}" 
-                               placeholder="队员${player}"
-                               onchange="saveData()" onblur="saveData()">
+                let playersHTML = '';
+                for (let i = 0; i < 5; i++) {
+                    playersHTML += `
+                        <div class="player-row">
+                            <span class="player-num">${i+1}号</span>
+                            <input type="text" class="player-input" 
+                                   id="player-${teamIdx}-${i}"
+                                   value="${team.players[i] || ''}"
+                                   placeholder="输入队员姓名"
+                                   onchange="updatePlayer(${teamIdx}, ${i}, this.value)">
+                        </div>
                     `;
-                    column.appendChild(playerDiv);
                 }
-                grid.appendChild(column);
+                
+                card.innerHTML = `
+                    <div class="team-header">
+                        <input type="text" class="team-name" 
+                               value="${team.name}"
+                               onchange="updateTeamName(${teamIdx}, this.value)">
+                    </div>
+                    <div class="score-section">
+                        <button class="score-btn minus" onclick="changeScore(${teamIdx}, -1)">−</button>
+                        <div class="score-display" id="score-${teamIdx}">${team.score}</div>
+                        <button class="score-btn plus" onclick="changeScore(${teamIdx}, 1)">+</button>
+                    </div>
+                    <div class="players-section">
+                        <div class="players-title">👥 队员名单</div>
+                        ${playersHTML}
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        function updateTeamName(teamIdx, name) {
+            data.teams[teamIdx].name = name;
+            saveData();
+        }
+
+        function updatePlayer(teamIdx, playerIdx, name) {
+            data.teams[teamIdx].players[playerIdx] = name;
+            saveData();
+        }
+
+        function changeScore(teamIdx, delta) {
+            data.teams[teamIdx].score = Math.max(0, data.teams[teamIdx].score + delta);
+            document.getElementById(`score-${teamIdx}`).textContent = data.teams[teamIdx].score;
+            saveData();
+        }
+
+        function resetScores() {
+            if (confirm('确定要重置所有分数吗？')) {
+                data.teams.forEach((team, idx) => {
+                    team.score = 0;
+                    document.getElementById(`score-${idx}`).textContent = 0;
+                });
+                saveData();
             }
         }
 
-        // 更新队伍名称时同步更新队员区域标题
-        function updateTeamHeaders() {
-            const columns = document.querySelectorAll('.team-column h4');
-            for (let i = 0; i < 4; i++) {
-                const teamName = document.getElementById(`name-${i}`).value;
-                if (columns[i]) {
-                    columns[i].textContent = teamName;
-                }
-            }
-        }
-
-        // 随机打乱数组
         function shuffleArray(array) {
             const arr = [...array];
             for (let i = arr.length - 1; i > 0; i--) {
@@ -433,136 +339,54 @@
             return arr;
         }
 
-        // 随机抽签出场顺序
         function randomizeLineup() {
             const resultDiv = document.getElementById('lineupResult');
-            resultDiv.innerHTML = '<h4>📋 出场顺序</h4>';
+            resultDiv.innerHTML = '<h3>📋 抽签结果 - 出场顺序</h3>';
             
-            for (let team = 0; team < 4; team++) {
-                const teamName = document.getElementById(`name-${team}`).value;
-                const players = [];
-                
-                for (let p = 1; p <= 5; p++) {
-                    const input = document.getElementById(`player-${team}-${p}`);
-                    const name = input ? input.value.trim() : '';
-                    players.push(name || `队员${p}`);
-                }
-                
-                // 随机打乱顺序
+            data.teams.forEach((team, teamIdx) => {
+                const players = team.players.map((p, i) => p.trim() || `队员${i+1}`);
                 const shuffled = shuffleArray(players);
                 
                 const teamDiv = document.createElement('div');
                 teamDiv.className = 'lineup-team';
+                
+                let orderHTML = shuffled.map((name, i) => 
+                    `<span class="lineup-player"><span class="num">${i+1}号:</span> ${name}</span>`
+                ).join('');
+                
                 teamDiv.innerHTML = `
-                    <div class="lineup-team-name">${teamName}</div>
-                    <div class="lineup-order">
-                        1号: ${shuffled[0]} → 
-                        2号: ${shuffled[1]} → 
-                        3号: ${shuffled[2]} → 
-                        4号: ${shuffled[3]} → 
-                        5号: ${shuffled[4]}
-                    </div>
+                    <div class="lineup-team-name">${team.name}</div>
+                    <div class="lineup-order">${orderHTML}</div>
                 `;
                 resultDiv.appendChild(teamDiv);
-            }
+            });
             
             resultDiv.classList.add('show');
-            
-            // 保存抽签结果
-            saveData();
         }
 
-        // 加载保存的数据
         function loadData() {
             try {
                 const saved = localStorage.getItem(STORAGE_KEY);
                 if (saved) {
-                    const data = JSON.parse(saved);
-                    for (let i = 0; i < 4; i++) {
-                        if (data.names && data.names[i]) {
-                            document.getElementById(`name-${i}`).value = data.names[i];
-                        }
-                        if (data.scores && data.scores[i] !== undefined) {
-                            document.getElementById(`score-${i}`).value = data.scores[i];
-                        }
-                    }
-                    
-                    // 初始化队员输入框后加载队员数据
-                    initTeamGrid();
-                    
-                    if (data.players) {
-                        for (let team = 0; team < 4; team++) {
-                            for (let p = 1; p <= 5; p++) {
-                                const input = document.getElementById(`player-${team}-${p}`);
-                                if (input && data.players[team] && data.players[team][p-1]) {
-                                    input.value = data.players[team][p-1];
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    initTeamGrid();
+                    data = JSON.parse(saved);
                 }
             } catch (e) {
-                console.log('加载数据失败');
-                initTeamGrid();
+                console.log('加载失败', e);
             }
         }
 
-        // 保存数据
         function saveData() {
             try {
-                const names = [];
-                const scores = [];
-                const players = [];
-                
-                for (let i = 0; i < 4; i++) {
-                    names.push(document.getElementById(`name-${i}`).value);
-                    scores.push(parseInt(document.getElementById(`score-${i}`).value) || 0);
-                    
-                    const teamPlayers = [];
-                    for (let p = 1; p <= 5; p++) {
-                        const input = document.getElementById(`player-${i}-${p}`);
-                        teamPlayers.push(input ? input.value : '');
-                    }
-                    players.push(teamPlayers);
-                }
-                
-                localStorage.setItem(STORAGE_KEY, JSON.stringify({ names, scores, players }));
-                
-                // 更新队伍标题
-                updateTeamHeaders();
-                
-                // 显示保存状态
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
                 const status = document.getElementById('saveStatus');
-                status.textContent = '✓ 已自动保存';
-                setTimeout(() => { status.textContent = ''; }, 2000);
+                status.textContent = '✓ 已保存';
+                setTimeout(() => { status.textContent = ''; }, 1500);
             } catch (e) {
-                console.log('保存数据失败');
+                console.log('保存失败', e);
             }
         }
 
-        // 改变分数
-        function changeScore(index, delta) {
-            const input = document.getElementById(`score-${index}`);
-            let value = parseInt(input.value) || 0;
-            value = Math.max(0, value + delta);
-            input.value = value;
-            saveData();
-        }
-
-        // 重置所有分数
-        function resetAll() {
-            if (confirm('确定要重置所有分数吗？')) {
-                for (let i = 0; i < 4; i++) {
-                    document.getElementById(`score-${i}`).value = 0;
-                }
-                saveData();
-            }
-        }
-
-        // 页面加载时初始化
-        window.onload = loadData;
+        window.onload = init;
     </script>
 </body>
 </html>
